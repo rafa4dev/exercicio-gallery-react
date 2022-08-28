@@ -8,36 +8,45 @@ import { Api } from "../../api";
 
 import * as C from './styles';
 import { BackButton } from "../../components/BackButton";
+import { Loading } from "../../components/Loading";
 
 export const Albums = () => {
     
     let { id } = useParams();
 
     const [album, setAlbum] = useState<AlbumType[]>([]);
+    const [loading, setLoading] = useState(false);
     
     useEffect(() => {
         loadPhotos();
     }, []);
 
     const loadPhotos = async () => {
+        setLoading(true);
         let response = await Api.getPhotos(id);
+        setLoading(false);
         setAlbum(response);
     }
 
     return (
         <>
         <BackButton key="1" label="voltar" />
-        <C.Content>
-            {album.length > 0 &&
-                <>
-                {album.map((item, index) => (
-                    <C.PhotoGrid key={index}>
-                        <PhotoItem data={item} />    
-                    </C.PhotoGrid>
-                ))}
-                </>
-            }
-        </C.Content>
+        {loading &&
+            <Loading />
+        }
+        {album &&
+            <C.Content>
+                {album.length > 0 &&
+                    <>
+                    {album.map((item, index) => (
+                        <C.PhotoGrid key={index}>
+                            <PhotoItem data={item} />    
+                        </C.PhotoGrid>
+                    ))}
+                    </>
+                }
+            </C.Content>
+        }
         </>
     )
 }
