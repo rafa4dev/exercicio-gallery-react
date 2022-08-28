@@ -1,5 +1,5 @@
 ## Projeto criado utilizando Vite com React e Typescript
-#
+
 * Biblioteca **Axios** usada no projeto para recuperar as informações da API do site **JSONPlaceholder**
 
 `npm install axios`
